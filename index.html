@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Countdown Timer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 36px;
+            letter-spacing: 2px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        #countdown {
+            font-size: 32px;
+            letter-spacing: 6px;
+            margin: 20px;
+            padding: 10px;
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+            background-color: #333;
+            display: inline-block;
+            animation: glow 1s infinite alternate, minuteChange 0.5s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px #00ffcc;
+            }
+
+            100% {
+                box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+            }
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Minute Change Animation */
+        @keyframes minuteChange {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Futuristic Countdown to January 9th, 2024</h1>
+    <div id="countdown"></div>
+
+    <script>
+        function updateCountdown() {
+            // Set the date we're counting down to
+            const countDownDate = new Date("January 9, 2024 00:00:00").getTime();
+
+            // Update the countdown every 1 second
+            setInterval(function () {
+
+                // Get the current date and time
+                const now = new Date().getTime();
+
+                // Calculate the remaining time
+                const distance = countDownDate - now;
+
+                // Calculate days, hours, minutes, and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the countdown
+                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+                // If the countdown is over, display a message
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "EXPIRED";
+                }
+
+                // Check for minute change and trigger animation
+                if (seconds === 0) {
+                    document.getElementById("countdown").style.animation = 'minuteChange 0.5s ease-in-out';
+                    setTimeout(() => {
+                        document.getElementById("countdown").style.animation = 'none';
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        // Initial call to update countdown
+        updateCountdown();
+
+        // Repeat the minute update function every minute
+        setInterval(updateCountdown, 60000);
+    </script>
+</body>
+
+</html>
